@@ -1,0 +1,70 @@
+---
+title: "RWorksheet_Layson#4a"
+author: "Gilmar M. Layson"
+date: "October 14, 2024"
+output: pdf_document
+---
+
+#1. 
+#a.
+```{r}
+ShoeSize <- c(6.5, 9, 8.5, 8.5, 10.5, 7, 9.5, 9, 13, 7.5, 10.5, 8.5, 12, 10.5, 13, 11.5, 8.5, 5, 10, 6.5, 7.5, 8.5, 10.5, 8.5, 10.5, 11, 9, 13)
+Height <- c(66.0,68.0,64.5,65.0,70.0,64.0,70.0,71.0,72.0,64.0,74.5,67.0,71.0,71.0,77.0,72.0,59.0,62.0,72.0,66.0,64.0,67.0,73.0,69.0,72.0,70.0,69.0,70.0)
+Gender <- c("F","F","F","F","M","F","F","F","M","F","M","F","M","M","M","M","F","F","M","F","F","M","M","F","M","M","M","M")
+
+House_Hold <- data.frame(ShoeSize, Height, Gender)
+House_Hold
+
+```
+#b.
+```{r}
+
+male <- subset(House_Hold, Gender == "M")
+male
+
+```
+ 
+```{r}
+female <- subset(House_Hold, Gender == "F")
+female
+```
+
+#c.
+```{r}
+mean(ShoeSize)
+mean(Height)
+```
+
+#d.
+#Shoe size and height are both characteristics of a person, they are independent of each other.  There's no direct connection between how big someone's feet are and how tall they are. 
+
+#2.
+```{r}
+months <- c("March", "April", "January", "November", "January", "September", "October", "September", "November", "August", "January", "November", "November", "February", "May", "August", "July", "December", "August", "August", "September", "November", "February", "April")
+factor_months_vector <- factor(months)
+factor_months_vector
+```
+#3.
+```{r}
+summary(months)
+summary(factor_months_vector)
+```
+#4.
+```{r}
+factor_data <- c("East", "West", "North")
+freq <- c(1,4,3)
+
+new_order_data <- factor(factor_data, levels = c("East", "West", "North"))
+new_order_data
+
+f_data <- data.frame(Direction = factor_data, Frequency = freq)
+f_data
+```
+#5.
+```{r}
+import_march <- read.table("C:\\Users\\User\\OneDrive\\Desktop\\Rworksheet\\Worksheet_4\\import_march.csv", header = TRUE, sep = ",", stringsAsFactors = FALSE)
+import_march
+
+
+```
+
