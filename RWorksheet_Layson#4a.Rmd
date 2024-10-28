@@ -68,3 +68,88 @@ import_march
 
 ```
 
+#6.
+```{r}
+num <- as.numeric(readline(prompt = "select number from 1 to 50: "))
+
+if (is.na(num)) {
+  print("Please enter a valid number.")
+} else if (num < 1 || num > 50) {
+  print("The number selected is beyond the range of 1 to 50.")
+} else if (num == 20) {
+  print("TRUE")
+} else {
+  print(paste("The selected number is", num))
+}
+```
+
+#7.
+```{r}
+pay_bills <- c(1000, 500, 200, 100, 50)
+count <- 0
+min_bills <- function(item_price){
+  
+  for(bill in pay_bills){
+    if(item_price >= bill){
+      count <- count + item_price %% bill
+      item_price <- item_price %% bill
+    }
+  }
+  
+  cat("The minimum cash required to buy a snack:", count, "\n")
+}
+
+min_bills(1550)
+```
+
+
+#8.
+#a.
+```{r}
+grades <- data.frame(
+  Name = c("Annie", "Thea", "Steve", "Hanna"),
+  Grade1 = c(85, 65, 75, 95),
+  Grade2 = c(65, 75, 55, 75),
+  Grade3 = c(85, 90, 80, 100),
+  Grade4 = c(100, 90, 85, 90)
+)
+
+grades
+```
+
+#b.
+```{r}
+ave_grades <- apply(grades[, 2:5], 1, function(x) sum(x) / length(x))
+
+highest_avg_index <- which.max(ave_grades)
+highest_avg_student <- grades$Name[highest_avg_index]
+highest_avg_grade <- ave_grades[highest_avg_index]
+
+cat("The student with the highest average grade is", highest_avg_student, "with an average of", highest_avg_grade, ".\n", sep = " ")
+```
+
+
+
+#8c
+```{r}
+for (j in 2:5) {
+  test_scores <- grades[, j]  
+  test_average <- mean(test_scores)  
+  if (test_average < 80) {
+    cat("The ", names(grades)[j], " test was difficult.\n", sep = "")
+  }
+}
+```
+
+#8d
+```{r}
+for (i in 1:nrow(grades)) {
+  student_grades <- grades[i, 2:5]
+  highest_grade <- max(student_grades)  
+  if (highest_grade > 90) {
+    cat(grades$Name[i], "'s highest grade this semester is ", highest_grade, ".\n", sep = "")
+  }
+}
+```
+
+
