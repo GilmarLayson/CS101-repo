@@ -144,5 +144,69 @@ legend("topright", legend = levels(iris$Species),
 ```{r}
 library(readxl)  
 
+
+
+alexa_data <- read_excel("C:/Users/User/OneDrive/Desktop/Rworksheet/worksheet_4/alexa_file.xlsx") 
+
+
+alexa_fileVariation <- gsub("Black\\$Dot", "Black Dot", alexa_data$variation)
+alexa_fileVariation <- gsub("Black\\$Plus", "Black Plus", alexa_data$variation)
+alexa_fileVariation <- gsub("Black\\$Show", "Black Show", alexa_data$variation)
+alexa_fileVariation <- gsub("Black\\$Spot", "Black Spot", alexa_data$variation)
+alexa_fileVariation <- gsub("White\\$Dot", "White Dot", alexa_data$variation)
+alexa_fileVariation <- gsub("White\\$Plus", "White Plus", alexa_data$variation)
+alexa_fileVariation <- gsub("White\\$Show", "White Show", alexa_data$variation)
+alexa_fileVariation <- gsub("White\\$Spot", "White Spot", alexa_data$variation)
+
+table(alexa_fileVariation)
+
+
+```
+#b.
+```{r}
+
+library(dplyr)
+
+variations_count <- alexa_data %>%
+  count(variation, name = "Total")
+save(variations_count, file = "variations.RData") 
+
+
+```
+#c.
+```{r}
+library(ggplot2)
+
+load("variations.RData")
+
+
+ggplot(variations_count, aes(x = variation, y = Total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Total Count of Alexa Variations") +
+  xlab("Variation") +
+  ylab("Total Numbers") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set3")
+
+```
+
+#d.
+```{r}
+variations_count$Category <- ifelse(grepl("Black", variations_count$variation), "Black Variants", 
+                                    ifelse(grepl("White", variations_count$variation), "White Variants", NA))
+
+black_white_variants <- variations_count %>% filter(!is.na(Category))
+
+
+ggplot(black_white_variants, aes(x = variation, y = Total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~ Category, scales = "free_x") +  
+  ggtitle("Counts of Alexa Black and White Variants") +
+  xlab("Variation") +
+  ylab("Total Numbers") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_brewer(palette = "Set2")  
 ```
 
