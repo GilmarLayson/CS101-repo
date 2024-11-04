@@ -1,0 +1,175 @@
+---
+title: "RWorksheet_Layson#4c"
+author: "Gilmar Layson"
+date: "2024-11-04"
+output: pdf_document
+---
+#1.
+```{r}
+mpg <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/mpg.csv", header = TRUE, sep = ",")
+mpg
+```
+
+#b.
+```{r}
+#Categorical Variables identified as manufacturer, model, trans, drv, fl, and class.
+```
+
+#c.
+```{r}
+#Continuous Variables identified as displ, cty, and hwy.
+```
+
+#2.
+```{r}
+#With six distinct models, Toyota is the manufacturer with the most models in this dataset. With 11 distinct variants, the Caravan 2WD is the vehicle with the most options.
+```
+
+
+#a.
+```{r}
+library(ggplot2)
+library(dplyr)
+
+manufacturer_count <- mpg %>%
+  count(manufacturer, model, name = "unique_models") %>%
+  group_by(manufacturer) %>%
+  summarise(unique_models = n()) %>%
+  arrange(desc(unique_models))
+
+manufacturer_count
+```
+
+#b.
+```{r}
+library(ggplot2)
+library(dplyr)
+
+manufacturer_model_count <- mpg %>%
+  group_by(manufacturer) %>%
+  summarise(unique_models = n_distinct(model)) %>%
+  arrange(desc(unique_models))
+
+ggplot(manufacturer_model_count, aes(x = reorder(manufacturer, -unique_models), y = unique_models)) +
+  geom_col(fill = "red") +
+  labs(title = "Unique Models by Manufacturer", x = "Manufacturer", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+#2.a.
+```{r}
+ggplot(mpg, aes(model, manufacturer)) + geom_point()
+
+#Every point in the scatter plot that is produced represents a distinct model-manufacturer combination.
+```
+
+#b.
+```{r}
+#It is helpful, but the plot is cluttered and difficult to read due to the excessive number of categories on the x-axis.
+```
+
+#3.
+```{r}
+library(ggplot2)
+library(dplyr)
+
+top20data <- mpg %>% slice(1:20)
+
+ggplot(top20data, aes(x = model, y = year)) +
+  geom_point() +
+  labs(title = "Top 20 Car Models by Year") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+#4.
+```{r}
+modelcount <- mpg %>%
+  group_by(model) %>%
+  summarise(car_count = n())
+
+modelcount
+```
+#a.
+```{r}
+ggplot(modelcount, aes(x = reorder(model, car_count), y = car_count, fill = model)) +
+  geom_col() +
+  labs(title = "Top 20 Car Models by Count (Flipped)",
+       x = "Car Model",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+#b.
+```{r}
+ggplot(modelcount, aes(x = reorder(model, -car_count), y = car_count, fill = model)) +
+  geom_col() +
+  labs(title = "Top 20 Car Models by Count",
+       x = "Car Model",
+       y = "Count") +
+  coord_flip() 
+```
+#5. a.
+```{r}
+#I noticed that greater engine displacement (displ) values correspond to points with more cylinders (cyl).
+
+library(ggplot2)
+library(dplyr)
+
+ggplot(mpg, aes(x = cyl, y = displ)) +
+  geom_point(aes(color = displ)) +
+  labs(title = "Relationship between No. of Cylinders and Engine Displacement",
+       x = "Number of Cylinders",
+       y = "Engine Displacement (L)") 
+```
+#6.
+```{r}
+library(ggplot2)
+
+ggplot(mpg, aes(x = displ, y = hwy, color = class)) + 
+  geom_point() +
+  labs(title = "Relationship between Engine Displacement and Highway Mileage",
+       x = "Engine Displacement (L)",
+       y = "Highway Mileage (mpg)")
+```
+#6.
+```{r}
+traffic <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/traffic.csv", header = TRUE, sep = ",")
+traffic
+```
+#a.
+```{r}
+print(paste("Number of observations:", nrow(traffic)))
+print(paste("Variables:", paste(names(traffic), collapse = ", ")))
+```
+#b.
+```{r}
+junctions <- traffic[traffic$Junction == 1, ]
+
+print(junctions)
+```
+#c.
+```{r}
+library(ggplot2)
+
+ggplot(junctions, aes(x = DateTime, y = Vehicles, group = 1)) + 
+  geom_line() +
+  labs(title = "Traffic Volume at Junctions", 
+       x = "Date Time", 
+       y = "Vehicles")
+```
+#7.
+```{r}
+library(readxl)
+alexa_file <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/alexa_file.xlsx")
+alexa_file
+
+
+```
+#a.
+```{r}
+print(paste("Number of observations:", nrow(alexa_file)))
+print(paste("Number of columns:", ncol(alexa_file)))
+```
+
+
