@@ -4,9 +4,11 @@ author: "Gilmar Layson"
 date: "2024-11-04"
 output: pdf_document
 ---
+
+
 #1.
 ```{r}
-mpg <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/mpg.csv", header = TRUE, sep = ",")
+mpg <- read.csv("mpg.csv", header = TRUE, sep = ",")
 mpg
 ```
 
@@ -134,7 +136,7 @@ ggplot(mpg, aes(x = displ, y = hwy, color = class)) +
 ```
 #6.
 ```{r}
-traffic <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/traffic.csv", header = TRUE, sep = ",")
+traffic <- read.csv("traffic.csv", header = TRUE, sep = ",")
 traffic
 ```
 #a.
@@ -160,16 +162,72 @@ ggplot(junctions, aes(x = DateTime, y = Vehicles, group = 1)) +
 ```
 #7.
 ```{r}
-library(readxl)
-alexa_file <- read.csv("C:/Users/User/OneDrive/Desktop/Rworksheet/Worksheet4c/alexa_file.xlsx")
-alexa_file
+library("readxl")
+alexa_data <- read_xlsx("alexa_file.xlsx")
+
+
 
 
 ```
-#a.
+
 ```{r}
-print(paste("Number of observations:", nrow(alexa_file)))
-print(paste("Number of columns:", ncol(alexa_file)))
+#a.
+str(alexa_data)
+ncol(alexa_data)
+#There are five columns and 3,150 observations in the #alexa file.
 ```
+
+
+
+```{r}
+#b.
+library(dplyr)
+variation_ttl <- alexa_data %>%
+  group_by(variation) %>%
+  summarize(total = n())
+print(variation_ttl)
+```
+
+
+```{r}
+#c.
+ggplot(variation_ttl, aes(x = variation, y = total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Variations", x = "Variation", y = "Total") +
+  theme_minimal()
+```
+
+
+```{r}
+#d.
+library(dplyr)
+num_of_verified_reviews <- alexa_data %>%
+  group_by(date) %>%
+  summarize(count = n()) %>%
+  arrange(date)
+
+library(ggplot2)
+ggplot(num_of_verified_reviews, aes(x = date, y = count)) +
+  geom_line(color = "red") +
+  labs(title = "Verified Reviews Over Time", x = "Date", y = "Verified Reviews") +
+  theme_minimal()
+```
+
+
+```{r}
+#e.
+variation_rate <- alexa_data %>%
+  group_by(variation) %>%
+  summarize(avg_rating = mean(rating, na.rm = TRUE)) %>%
+  arrange(desc(avg_rating))
+variation_rate
+
+ggplot(variation_rate, aes(x = reorder(variation, avg_rating), y = avg_rating, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Ratings by Variation", x = "Variation", y = "Average Rating") +
+  coord_flip()
+
+```
+
 
 
